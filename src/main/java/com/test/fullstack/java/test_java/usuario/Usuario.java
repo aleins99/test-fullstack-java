@@ -1,5 +1,6 @@
 package com.test.fullstack.java.test_java.usuario;
 import jakarta.persistence.*;
+import org.springframework.context.annotation.DeferredImportSelector;
 
 @Entity
 @Table(name = "USUARIOS")
@@ -19,7 +20,7 @@ public class Usuario {
     private String contrasenia;
 
     @Column(name = "ESTADO")
-    private String estado;
+    private boolean estado;
 
     @Column(name = "ROL")
     private String rol;
@@ -58,11 +59,11 @@ public class Usuario {
         this.contrasenia = contrasenia;
     }
     
-    public String getEstado() {
+    public boolean getEstado() {
         return estado;
     }
     
-    public void setEstado(String estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
 
@@ -73,7 +74,11 @@ public class Usuario {
     public void setRol(String rol) {
         this.rol = rol;
     }
-    
+
+
+
+
+
     @Override
     public String toString() {
         return "Usuario{" +

@@ -50,7 +50,7 @@ public class UsuarioService {
                 if (usuario.getEmail() != null) {
                     usuarioExistente.setEmail(usuario.getEmail());
                 }
-                if (usuario.getEstado() != null) {
+                if (usuario.getEstado()) {
                     usuarioExistente.setEstado(usuario.getEstado());
                 }
                 if (usuario.getRol() != null) {

@@ -1,55 +1,70 @@
 package com.test.fullstack.java.test_java.config;
 
-
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+
+import com.test.fullstack.java.test_java.usuario.Usuario;
+import com.test.fullstack.java.test_java.usuario.UsuarioRepository;
+import com.test.fullstack.java.test_java.usuario.UsuarioService;
+
+import javax.sql.DataSource;
+
 
 @Configuration
-@EnableWebSecurity
-public class SecurityConfig  extends WebSecurityConfigurerAdapter{
+public class SecurityConfig  {
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired UsuarioRepository userRepository;
     @Bean
-    public UserDetailsManager userDetailsManager(DataSource dataSource) {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(configurer ->
+                configurer
+                .requestMatchers(HttpMethod.GET, "api/usuarios").hasAnyAuthority("ADMIN", "CONSULTOR")
+                .requestMatchers(HttpMethod.POST, "api/usuarios").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "api/usuarios").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "api/usuarios").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "api/usuarios/**").hasAuthority("ADMIN")
 
-        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-
-        jdbcUserDetailsManager.setUsersByUsernameQuery(
-                "select USUARIO_ID, CONTRASENIA, ESTADO from USUARIOS where USUARIO_ID=?");
-
-        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
-                "select USUARIO_ID, ROL from USUARIOS where USUARIO_ID=?");
-
-        return jdbcUserDetailsManager;
+        )
+                .httpBasic(Customizer.withDefaults()
+                );
+        http.httpBasic(Customizer.withDefaults());
+        http.csrf(AbstractHttpConfigurer::disable);
+        return http.build();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .antMatchers(HttpMethod.GET, "api/usuarios").hasAnyRole("ADMIN", "CONSULTOR")
-            .antMatchers(HttpMethod.POST, "api/usuarios").hasRole("ADMIN")
-            .antMatchers(HttpMethod.PUT, "api/usuarios").hasRole("ADMIN")
-            .antMatchers(HttpMethod.DELETE, "api/usuarios").hasRole("ADMIN")
-            .antMatchers(HttpMethod.GET, "api/usuarios/**").hasAnyRole("ADMIN", "CONSULTOR")
-            .anyRequest().authenticated()   
-            .and()
-            .formLogin()
-            .loginPage( "/login")
-            .permitAll()
-            .and()
-            .logout()
-            .permitAll()
-            .and()
-            .csrf().disable();
-
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(email -> {
+            Usuario usuario = userRepository.findByEmail(email);
+            if (usuario != null && usuario.getEstado()) {
+                return new User(usuario.getEmail(), usuario.getContrasenia(),
+                        AuthorityUtils.createAuthorityList(usuario.getRol()));
+            } else {
+                throw new UsernameNotFoundException("Usuario no encontrado o inactivo");
+            }
+        });
     }
-   
+    @SuppressWarnings("deprecation")
+    @Bean
+    public static NoOpPasswordEncoder passwordEncoder() {
+    return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+    }
+
+
 }
