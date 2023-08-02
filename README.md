@@ -20,7 +20,7 @@ Este proyecto es mantenido por e-tica, una empresa dedicada a crear soluciones t
 
 - [x] Crear, modificar, eliminar y listar usuarios
 
-- [ ] Filtro por estado, nombre y lo que se crea pertinente
+- [x] Filtro por estado, nombre y lo que se crea pertinente
 
 Cada Usuario debe contener minimamente los siguientes datos:
 
