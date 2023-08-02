@@ -52,7 +52,7 @@ public class SecurityConfig  {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(email -> {
             Usuario usuario = userRepository.findByEmail(email);
-            if (usuario != null && usuario.getEstado()) {
+            if (usuario != null && usuario.getEstado().equals("ACTIVO")) {
                 return new User(usuario.getEmail(), usuario.getContrasenia(),
                         AuthorityUtils.createAuthorityList(usuario.getRol()));
             } else {

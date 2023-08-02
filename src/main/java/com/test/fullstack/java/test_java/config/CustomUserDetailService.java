@@ -30,10 +30,10 @@ public class CustomUserDetailService implements UserDetailsService{
         if (customer == null) {
             throw new UsernameNotFoundException(email);
         }
-        boolean enabled = !customer.getEstado(); // we can use this in case we want to activate account after customer verified the account
+        boolean enabled = customer.getEstado().equals("INACTIVO") ? true : false; // we can use this in case we want to activate account after customer verified the account
         UserDetails user = User.withUsername(customer.getEmail())
                 .password(customer.getContrasenia())
-                .disabled(customer.getEstado())
+                .disabled(customer.getEstado().equals("ACTIVO") ? true : false)
                 .authorities(getAuthorities(customer)).build()
                 ;
 
