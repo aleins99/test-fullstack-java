@@ -39,7 +39,7 @@ public class SecurityConfig  {
                 .requestMatchers(HttpMethod.PUT, "api/usuarios").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "api/usuarios").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.GET, "api/usuarios/**").hasAuthority("ADMIN")
-
+        
         )
                 .httpBasic(Customizer.withDefaults()
                 );
