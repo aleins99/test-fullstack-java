@@ -39,10 +39,7 @@ public class SecurityConfig  {
                 .requestMatchers(HttpMethod.PUT, "api/usuarios").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "api/usuarios").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.GET, "api/usuarios/**").hasAuthority("ADMIN")
-        
-        )
-                .httpBasic(Customizer.withDefaults()
-                );
+        );
         http.httpBasic(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
         return http.build();
@@ -63,7 +60,7 @@ public class SecurityConfig  {
     @SuppressWarnings("deprecation")
     @Bean
     public static NoOpPasswordEncoder passwordEncoder() {
-    return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
     }
 
 

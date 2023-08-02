@@ -22,11 +22,15 @@ public class UsuarioService {
         return usuariosList;
     }
 
-    public void agregarUsuario(Usuario usuario) {
+    public Usuario agregarUsuario(Usuario usuario) {
         if (null == usuario) {
             throw new RuntimeException("El usuario no puede ser nulo");
         } else {
-            this.usuarioRepository.save(usuario);
+            Usuario usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
+            if(usuarioExistente != null) {
+                throw new IllegalArgumentException("El correo electrónico ya está en uso");
+            }
+            return usuarioRepository.save(usuario);
         }
     }
     public boolean eliminarUsuario(Long id) {

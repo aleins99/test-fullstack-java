@@ -1,19 +1,31 @@
 package com.test.fullstack.java.test_java.usuario;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.DeferredImportSelector;
-
 @Entity
 @Table(name = "USUARIOS")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USUARIO_ID")
     private Long id;
 
+    public Usuario(String nombreCompleto, String email, String contrasenia, String estado, String rol) {
+        this.nombreCompleto = nombreCompleto;
+        this.email = email;
+        this.contrasenia = contrasenia;
+        this.estado = estado;
+        this.rol = rol;
+    }
+
     @Column(name = "NOMBRE_COMPLETO")
     private String nombreCompleto;
 
-    @Column(name = "EMAIL")
+
+    @Column(name = "EMAIL", unique = true)
     private String email;
 
     @Column(name = "CONTRASENIA")
@@ -24,7 +36,7 @@ public class Usuario {
 
     @Column(name = "ROL")
     private String rol;
-    
+
     public Long getId() {
         return id;
     }
