@@ -22,10 +22,10 @@ const Usuarios = () => {
   async function eliminarUsuario(id) {
     const response = await axiosInstance.delete(`usuarios/${id}`);
     console.log(response);
-    if (response.status === 204) {
+    if (response.status === 200) {
       setUsuarios(usuarios.filter((usuario) => usuario.id !== id));
     } else {
-      console.log(response.status);
+      console.log(response.data);
       console.error("Error al eliminar");
     }
   }
@@ -49,7 +49,7 @@ const Usuarios = () => {
       <ul className="grid lg:grid-cols-4 gap-4 grid-cols-2 md:grid-cols-3 place-content-center">
         {usuarios.map((usuario) => {
           return (
-            usuario.rol !== "admin" && (
+            usuario.rol !== "ADMIN" && (
               <li
                 key={usuario.id}
                 className="max-w-sm rounded overflow-hidden shadow-lg px-4 py-8"
@@ -60,14 +60,16 @@ const Usuarios = () => {
                     src={userIcon}
                     alt={usuario.nombreCompleto}
                   />
-                  <img
-                    src={editBtn}
-                    alt="Boton de editar producto"
-                    className="w-6 h-6 hover:cursor-pointer mx-6"
-                    onClick={() => {
-                      navigate(`/usuario/${usuario.id}`);
-                    }}
-                  />
+                  {usuario.rol === "ADMIN" && (
+                    <img
+                      src={editBtn}
+                      alt="Boton de editar producto"
+                      className="w-6 h-6 hover:cursor-pointer mx-6"
+                      onClick={() => {
+                        navigate(`/usuario/${usuario.id}`);
+                      }}
+                    />
+                  )}
 
                   <span className="dark:text-white text-gray-800 col-span-2">
                     {usuario.nombreCompleto} {usuario.last_name}
@@ -86,14 +88,16 @@ const Usuarios = () => {
                     {usuario.rol}
                   </span>
                 </p>
-                <div className="flex justify-end">
-                  <button
-                    onClick={() => eliminarUsuario(usuario.id)}
-                    className="bg-slate-800 hover:bg-slate-700 dark:bg-blue-500 dark:hover:bg-blue-700 text-white flex-end dark:bg-blue-600"
-                  >
-                    Eliminar Usuario
-                  </button>
-                </div>
+                {usuario.rol === "ADMIN" && (
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() => eliminarUsuario(usuario.id)}
+                      className="bg-slate-800 hover:bg-slate-700 dark:bg-blue-500 dark:hover:bg-blue-700 text-white flex-end dark:bg-blue-600"
+                    >
+                      Eliminar Usuario
+                    </button>
+                  </div>
+                )}
               </li>
             )
           );

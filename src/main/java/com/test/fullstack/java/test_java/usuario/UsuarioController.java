@@ -38,7 +38,7 @@ public class UsuarioController {
         this.userDetailsService = userDetailsService;
         this.jwtGenerator = jwtUt;
     }
-
+    // usuarios?nombre=nombre&estado=estado  || usuarios?nombre=nombre || usuarios?estado=estado
     @RequestMapping(method = RequestMethod.GET, path = "/usuarios")
     public List<Usuario> getUsuarios(@RequestParam(required = false) String nombre, @RequestParam(required = false) String estado) {
         if (estado != null) {
@@ -82,6 +82,14 @@ public class UsuarioController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticateUser(@RequestBody Login loginRequest) throws Exception {
+        Usuario us = repository.findByEmail(loginRequest.getEmail());
+        if (us == null) {
+            return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
+        }
+        String estado = us.getEstado();
+        if (estado.equals("INACTIVO")) {
+            return new ResponseEntity<>("Usuario Inactivo", HttpStatus.FORBIDDEN);
+        }
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
             loginRequest.getEmail(),

@@ -78,25 +78,6 @@ public class UsuarioService {
         return usuariosList;
     }
 
-    public LoginMesage  loginEmployee(Login loginDTO) {
-        String msg = "";
-        Usuario usuario = usuarioRepository.findByEmail(loginDTO.getEmail());
-        if (usuario != null) {
-            String password = loginDTO.getPassword();
-            Boolean isPwdRight = password.equals(usuario.getContrasenia());
-            if (isPwdRight) {
-                Optional<Usuario> employee = usuarioRepository.findOneByEmailAndContrasenia(loginDTO.getEmail(), password);
-                if (employee.isPresent()) {
-                    return new LoginMesage("Login Success", true);
-                } else {
-                    return new LoginMesage("Login Failed", false);
-                }
-            } else {
-                return new LoginMesage("password Not Match", false);
-            }
-        }else {
-            return new LoginMesage("Email not exits", false);
-        }
-    }
+ 
    
 }

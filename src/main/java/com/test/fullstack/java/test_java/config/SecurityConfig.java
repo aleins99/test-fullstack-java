@@ -58,28 +58,27 @@ public class SecurityConfig implements WebMvcConfigurer {
                 configurer
                 .requestMatchers(HttpMethod.GET, "api/usuarios").hasAnyAuthority("ADMIN", "CONSULTOR")
                 .requestMatchers(HttpMethod.POST, "api/usuarios").hasAuthority("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "api/usuarios").hasAuthority("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "api/usuarios").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "api/usuarios/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "api/usuarios/**").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.GET, "api/usuarios/**").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .anyRequest().authenticated()
         );
         // Esto permitirá todas las solicitudes a la ruta /login.
-        /*
+        
         http.exceptionHandling(handling -> handling.authenticationEntryPoint(authEntryPoint));
         http.sessionManagement(hd -> hd.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-         */
+        
         http.httpBasic(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
-        /* 
+        
         http.formLogin(form ->
             form
                     .loginPage("/api/authenticate")
                     .loginProcessingUrl("/authenticateTheUser")
                     .permitAll());
-                    /* 
+                    
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);   
-        */
+        
         return http.build();
     }
 

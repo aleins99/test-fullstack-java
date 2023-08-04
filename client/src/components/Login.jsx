@@ -10,28 +10,37 @@ const Login = ({ onLogin }) => {
   const token = btoa(`${"mike@gmail.com"}:${"mikepr21"}`);
 
   // puedes llamar a doLogin con los valores del nombre de usuario y contraseña
-  const onLoginHandle = (e) => {
+  const onLoginHandle = async (e) => {
     e.preventDefault();
     const data = {
       email: email,
       password: password,
     };
-    console.log(data);
-    axios
-      .post(
+
+    try {
+      const result = await axios.post(
         "http://localhost:8080/api/authenticate",
-        { email, password },
-        { withCredentials: true }
-      )
-      .then((res) => {
-        console.log(res.data.accessToken);
-        onLogin(jwtDecode(res.data.accessToken).sub);
-        window.localStorage.setItem("token", res.data.accessToken);
-      })
-      .catch((err) => {
-        console.log(err);
-        onError("Error al iniciar sesión");
-      });
+        data
+      );
+      console.log("result: ", result);
+
+      if (result.status === 200) {
+        localStorage.setItem("token", result.data.accessToken);
+        onLogin(email);
+      } else {
+        console.log("rdadasd");
+      }
+    } catch (error) {
+      console.error(error);
+      // En el caso de un error HTTP, el objeto error debería tener una propiedad `response`
+      // que contiene detalles sobre la respuesta que condujo al error.
+      if (error.response) {
+        console.error("Response data: ", error.response.data);
+        onError(error.response.data);
+        console.error("Response status: ", error.response.status);
+        console.error("Response headers: ", error.response.headers);
+      }
+    }
   };
 
   return (
