@@ -28,12 +28,12 @@ public class CustomUserDetailService implements UserDetailsService{
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         final Usuario customer = userRepository.findByEmail(email);
         if (customer == null) {
-            throw new UsernameNotFoundException(email);
+            throw new UsernameNotFoundException("ead" + email);
         }
-        boolean enabled = customer.getEstado().equals("INACTIVO") ? true : false; // we can use this in case we want to activate account after customer verified the account
+        boolean enabled = customer.getEstado().equals("ACTIVO") ? true : false; // we can use this in case we want to activate account after customer verified the account
         UserDetails user = User.withUsername(customer.getEmail())
                 .password(customer.getContrasenia())
-                .disabled(customer.getEstado().equals("ACTIVO") ? true : false)
+                .disabled(customer.getEstado().equals("INACTIVO") ? true : false)
                 .authorities(getAuthorities(customer)).build()
                 ;
 

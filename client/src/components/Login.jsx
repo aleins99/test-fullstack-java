@@ -1,64 +1,75 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
+import axiosInstance from "../utils/axiosInstance";
 const Login = ({ onLogin }) => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, onError] = useState("");
-    const loginHandle = async (e) => {
-        e.preventDefault();
-        // login and get an user with JWT token
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, onError] = useState("");
+  const token = btoa(`${"mike@gmail.com"}:${"mikepr21"}`);
 
-        await axios
-            .post("http://localhost:8080/login/", {
-                username,
-                password,
-            })
-            .then(function (response) {
-                console.log(response.data);
-                window.localStorage.setItem("authToken", JSON.stringify(response.data));
-                onLogin(response.data);
-            })
-            .catch(function (error) {
-                if (error.response.status === 400) {
-                    onError("Los campos no pueden estar en blanco");
-                } else {
-                    onError("Algo ha salido mal, Verifique sus credenciales");
-                }
-            });
+  // puedes llamar a doLogin con los valores del nombre de usuario y contraseña
+  const onLoginHandle = (e) => {
+    e.preventDefault();
+    const data = {
+      email: email,
+      password: password,
     };
+    console.log(data);
+    axios
+      .post(
+        "http://localhost:8080/api/authenticate",
+        { email, password },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        console.log(res.data.accessToken);
+        onLogin(jwtDecode(res.data.accessToken).sub);
+        window.localStorage.setItem("token", res.data.accessToken);
+      })
+      .catch((err) => {
+        console.log(err);
+        onError("Error al iniciar sesión");
+      });
+  };
 
-    return (
-        <div className="login dark:bg-slate-800 dark:text-white">
-            <form onSubmit={loginHandle}>
-                <h2>Java Test</h2>
-                <p>Por favor inicia sesión</p>
-                <input
-                    aria-label="Username"
-                    placeholder="Username"
-                    id="username"
-                    type="text"
-                    onChange={(e) => {
-                        console.log(e.target.value);
-                        setUsername(e.target.value);
-                    }}
-                />
-                <input
-                    aria-label="Password"
-                    placeholder="Password"
-                    id="password"
-                    type="password"
-                    onChange={(e) => {
-                        setPassword(e.target.value);
-                    }}
-                />
-                {error && <p className="text-red-600">{error}</p>}
-                <button type="submit">Login</button>
-            </form>
-        </div>
-    );
+  return (
+    <div
+      className="login dark:bg-slate-800 dark:text-white"
+      onSubmit={onLoginHandle}
+    >
+      <form>
+        <h2>Java Test</h2>
+        <p>Por favor inicia sesión</p>
+        <input
+          aria-label="Username"
+          placeholder="Username"
+          id="email"
+          type="text"
+          onChange={(e) => {
+            console.log(e.target.value);
+            setEmail(e.target.value);
+          }}
+        />
+        <input
+          aria-label="Password"
+          placeholder="Password"
+          id="password"
+          type="password"
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
+        {error && <p className="text-red-600">{error}</p>}
+        <button type="submit" className="color-red">
+          Login
+        </button>
+      </form>
+    </div>
+  );
 };
 Login.propTypes = {
-    onLogin: PropTypes.func.isRequired,
+  onLogin: PropTypes.func.isRequired,
 };
 export default Login;
