@@ -51,6 +51,7 @@ const Login = () => {
           aria-label="Username"
           placeholder="Username"
           id="email"
+          required
           type="text"
           onChange={(e) => {
             console.log(e.target.value);
@@ -61,6 +62,7 @@ const Login = () => {
           aria-label="Password"
           placeholder="Password"
           id="password"
+          required
           type="password"
           onChange={(e) => {
             setPassword(e.target.value);
@@ -74,7 +76,5 @@ const Login = () => {
     </div>
   );
 };
-Login.propTypes = {
-  onLogin: PropTypes.func.isRequired,
-};
+
 export default Login;

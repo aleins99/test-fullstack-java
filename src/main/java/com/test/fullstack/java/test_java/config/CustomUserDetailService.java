@@ -4,6 +4,7 @@ import com.test.fullstack.java.test_java.usuario.Usuario;
 import com.test.fullstack.java.test_java.usuario.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
