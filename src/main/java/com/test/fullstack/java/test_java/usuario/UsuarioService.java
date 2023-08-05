@@ -57,7 +57,7 @@ public class UsuarioService {
                 if (usuario.getEmail() != null) {
                     usuarioExistente.setEmail(usuario.getEmail());
                 }
-                if (usuario.getEstado() == "ACTIVO" || usuario.getEstado() == "INACTIVO") {
+                if (usuario.getEstado().equals("ACTIVO") || usuario.getEstado().equals("INACTIVO"))  {
                     usuarioExistente.setEstado(usuario.getEstado());
                 }
                 if (usuario.getRol() != null) {

@@ -3,22 +3,43 @@ import userIcon from "../assets/user.svg";
 import axiosInstance from "../utils/axiosInstance";
 import editBtn from "../assets/edit-btn.svg";
 import "../App.css";
-import axios from "axios";
+import jwtDecode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 const Usuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
-
+  const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     let getUsuarios = async () => {
-      console.log(localStorage.getItem("email"));
       let response = await axiosInstance.get("usuarios");
       if (response.status === 200) {
         setUsuarios(response.data);
-        console.log(response.data);
       }
     };
     getUsuarios();
+
     console.log(usuarios[0]);
   }, []);
+  useEffect(() => {
+    const checkIsAdmin = async () => {
+      if (localStorage.getItem("token") !== null) {
+        try {
+          const result = await axiosInstance.get(
+            "http://localhost:8080/api/usuarios/1"
+          );
+
+          if (result.status === 200) {
+            setIsAdmin(true);
+          }
+        } catch (error) {
+          console.log("no es admin");
+        }
+      }
+    };
+    checkIsAdmin();
+  }, [isAdmin]);
+
+  console.log();
   async function eliminarUsuario(id) {
     const response = await axiosInstance.delete(`usuarios/${id}`);
     console.log(response);
@@ -60,13 +81,13 @@ const Usuarios = () => {
                     src={userIcon}
                     alt={usuario.nombreCompleto}
                   />
-                  {usuario.rol === "ADMIN" && (
+                  {isAdmin && (
                     <img
                       src={editBtn}
                       alt="Boton de editar producto"
                       className="w-6 h-6 hover:cursor-pointer mx-6"
                       onClick={() => {
-                        navigate(`/usuario/${usuario.id}`);
+                        navigate(`/usuario/editar/${usuario.id}`);
                       }}
                     />
                   )}
@@ -88,11 +109,17 @@ const Usuarios = () => {
                     {usuario.rol}
                   </span>
                 </p>
-                {usuario.rol === "ADMIN" && (
+                <p className="dark:text-white text-blue-800 text-base">
+                  Estado:{" "}
+                  <span className="text-gray-800 dark:text-white">
+                    {usuario.estado}
+                  </span>
+                </p>
+                {isAdmin && (
                   <div className="flex justify-end">
                     <button
                       onClick={() => eliminarUsuario(usuario.id)}
-                      className="bg-slate-800 hover:bg-slate-700 dark:bg-blue-500 dark:hover:bg-blue-700 text-white flex-end dark:bg-blue-600"
+                      className="bg-slate-800 hover:bg-slate-700 dark:bg-red-500 dark:hover:bg-red-700 text-white flex-end dark:bg-blue-600"
                     >
                       Eliminar Usuario
                     </button>
@@ -103,6 +130,18 @@ const Usuarios = () => {
           );
         })}
       </ul>
+      {isAdmin && (
+        <div className="flex justify-start my-5">
+          <button
+            onClick={() => {
+              navigate("/usuario/agregar");
+            }}
+            className="bg-slate-800 hover:bg-slate-700 dark:bg-blue-500 dark:hover:bg-blue-700 text-white flex-end dark:bg-blue-600"
+          >
+            Agregar Usuario
+          </button>
+        </div>
+      )}
     </div>
   );
 };

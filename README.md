@@ -53,11 +53,11 @@ _Obs: Puedes agregar cualquier servicio que se crea necesario al API._
 
 ### Desafíos Frontend Integrados
 
-- [ ] 1. **Diseñar una interfaz para inicio de sesion** Crea una pagina de inicio de sesion que reciba usuario y contraseña, en caso de exito redirigir a la pagina de listado de usuarios, caso contrario mostrar un mensaje de error.
+- [x] 1. **Diseñar una interfaz para inicio de sesion** Crea una pagina de inicio de sesion que reciba usuario y contraseña, en caso de exito redirigir a la pagina de listado de usuarios, caso contrario mostrar un mensaje de error.
 
-- [ ] 1. **Diseñar una interfaz para mostrar la lista de usuarios:** Crea una interfaz web para consumir el endpoint que obtiene la lista de usuarios. Muestra la información de manera atractiva y fácil de entender.
+- [x] 1. **Diseñar una interfaz para mostrar la lista de usuarios:** Crea una interfaz web para consumir el endpoint que obtiene la lista de usuarios. Muestra la información de manera atractiva y fácil de entender.
 
-- [ ] 2. **Implementar un formulario para agregar nuevos usuarios:** Diseña un formulario que permita agregar nuevos usuarios a través de la API backend. Asegúrate de validar los campos y proporcionar mensajes de error claros.
+- [x] 2. **Implementar un formulario para agregar nuevos usuarios:** Diseña un formulario que permita agregar nuevos usuarios a través de la API backend. Asegúrate de validar los campos y proporcionar mensajes de error claros.
 
 Estos desafíos te darán una excelente oportunidad para aprender y poner en práctica tus habilidades de desarrollo en el entorno de Spring Boot y Frontend. ¡Esperamos con ansias ver tus contribuciones a este proyecto!
 

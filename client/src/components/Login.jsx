@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import axiosInstance from "../utils/axiosInstance";
-const Login = ({ onLogin }) => {
+import { useNavigate } from "react-router-dom";
+const Login = () => {
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [error, onError] = useState("");
-  const token = btoa(`${"mike@gmail.com"}:${"mikepr21"}`);
 
   // puedes llamar a doLogin con los valores del nombre de usuario y contraseña
   const onLoginHandle = async (e) => {
@@ -26,7 +27,7 @@ const Login = ({ onLogin }) => {
 
       if (result.status === 200) {
         localStorage.setItem("token", result.data.accessToken);
-        onLogin(email);
+        window.location.reload();
       } else {
         console.log("rdadasd");
       }

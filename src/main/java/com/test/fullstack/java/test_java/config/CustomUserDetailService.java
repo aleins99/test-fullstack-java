@@ -30,7 +30,6 @@ public class CustomUserDetailService implements UserDetailsService{
         if (customer == null) {
             throw new UsernameNotFoundException("ead" + email);
         }
-        System.out.println("JAJSDAJDJASDNASDKJASDKJNKASD");
         boolean enabled = customer.getEstado().equals("ACTIVO") ? true : false; // we can use this in case we want to activate account after customer verified the account
         UserDetails user = User.withUsername(customer.getEmail())
                 .password(customer.getContrasenia())
