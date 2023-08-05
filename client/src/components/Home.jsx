@@ -3,7 +3,6 @@ import userIcon from "../assets/user.svg";
 import axiosInstance from "../utils/axiosInstance";
 import editBtn from "../assets/edit-btn.svg";
 import "../App.css";
-import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 const Usuarios = () => {
   const [usuarios, setUsuarios] = useState([]);

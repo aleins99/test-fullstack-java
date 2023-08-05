@@ -2,10 +2,8 @@ package com.test.fullstack.java.test_java.config;
 
 import com.test.fullstack.java.test_java.usuario.Usuario;
 import com.test.fullstack.java.test_java.usuario.UsuarioRepository;
-import org.apache.catalina.Group;
-import org.hibernate.mapping.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DeferredImportSelector;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
 
 @Service("userDetailsService")
 public class CustomUserDetailService implements UserDetailsService{
@@ -30,7 +27,7 @@ public class CustomUserDetailService implements UserDetailsService{
         if (customer == null) {
             throw new UsernameNotFoundException("ead" + email);
         }
-        boolean enabled = customer.getEstado().equals("ACTIVO") ? true : false; // we can use this in case we want to activate account after customer verified the account
+        boolean enabled = customer.getEstado().equals("ACTIVO") ? true : false; 
         UserDetails user = User.withUsername(customer.getEmail())
                 .password(customer.getContrasenia())
                 .disabled(customer.getEstado().equals("INACTIVO") ? true : false)

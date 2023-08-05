@@ -6,8 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.test.fullstack.java.test_java.login.Login;
-import com.test.fullstack.java.test_java.login.LoginMesage;
+
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;

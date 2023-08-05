@@ -46,11 +46,6 @@ public class SecurityConfig implements WebMvcConfigurer {
         this.usuarioService = usuarioService;
 
     }
-
-    
-    
-    
-    
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -63,7 +58,6 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .requestMatchers(HttpMethod.GET, "api/usuarios/**").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
         );
-        // Esto permitirá todas las solicitudes a la ruta /login.
         
         http.exceptionHandling(handling -> handling.authenticationEntryPoint(authEntryPoint));
         http.sessionManagement(hd -> hd.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -1,16 +1,12 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import jwtDecode from "jwt-decode";
-import axiosInstance from "../utils/axiosInstance";
-import { useNavigate } from "react-router-dom";
+
 const Login = () => {
   const [email, setEmail] = useState("");
-  const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [error, onError] = useState("");
 
-  // puedes llamar a doLogin con los valores del nombre de usuario y contraseña
   const onLoginHandle = async (e) => {
     e.preventDefault();
     const data = {
@@ -33,8 +29,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error(error);
-      // En el caso de un error HTTP, el objeto error debería tener una propiedad `response`
-      // que contiene detalles sobre la respuesta que condujo al error.
+
       if (error.response) {
         console.error("Response data: ", error.response.data);
         onError(error.response.data);

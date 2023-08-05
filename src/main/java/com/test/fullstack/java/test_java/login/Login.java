@@ -14,7 +14,6 @@ public class Login {
         this.password = password;
     } 
 
-    // getters and setters
     public String getEmail() {
         return email;
     }
@@ -22,7 +21,6 @@ public class Login {
         this.email = email;
     }
 
-    // getters and setters
     public String getPassword() {
         return password;
     }

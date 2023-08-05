@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export default function ProductoForm() {
   const params = useParams();
 
-  const [isChecked, setIsChecked] = useState(false); // Estado para el checkbox
+  const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
   const [error, onError] = useState("");
   const [usuario, setUsuario] = useState();
@@ -42,8 +42,7 @@ export default function ProductoForm() {
       }
     } catch (error) {
       console.error(error);
-      // En el caso de un error HTTP, el objeto error debería tener una propiedad `response`
-      // que contiene detalles sobre la respuesta que condujo al error.
+
       if (error.response) {
         onError(error.response.data);
       }
@@ -81,7 +80,7 @@ export default function ProductoForm() {
               <label className="block text-gray-700 dark:text-white text-sm font-bold mb-2 flex items-center">
                 <input
                   type="checkbox"
-                  className="hidden" // Oculta el checkbox original
+                  className="hidden"
                   id="checkboxInput"
                   value={isChecked}
                   onChange={handleCheckboxChange}
@@ -93,7 +92,6 @@ export default function ProductoForm() {
                       : "bg-white border-gray-400"
                   } mr-2`}
                 ></span>
-                {/* Esta es la representación visual del checkbox */}
                 ACTIVO
               </label>
               {error && <p className="text-red-600">{error}</p>}
