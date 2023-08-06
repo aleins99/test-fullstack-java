@@ -1,8 +1,8 @@
 INSERT INTO USUARIOS (NOMBRE_COMPLETO, CONTRASENIA, EMAIL, ESTADO, ROL)
-VALUES ('Juan Alberto', 'constraseña', 'juanalberto@gmail.com', 'ACTIVO', 'ADMIN');
+VALUES ('Juan Alberto', 'admin', 'admin@gmail.com', 'ACTIVO', 'ADMIN');
 
 INSERT INTO USUARIOS (NOMBRE_COMPLETO, CONTRASENIA, EMAIL, ESTADO, ROL)
-VALUES ('Juana del Rio', 'contraseña456', 'juanita23@gmail.com', 'INACTIVO', 'CONSULTOR');
+VALUES ('Juana del Rio', 'admin', 'inactivo@gmail.com', 'INACTIVO', 'CONSULTOR');
 
 INSERT INTO USUARIOS (NOMBRE_COMPLETO, CONTRASENIA, EMAIL, ESTADO, ROL)
-VALUES ('Mike Britos', 'mikepr21', 'mike@gmail.com', 'ACTIVO', 'CONSULTOR');
+VALUES ('Mike Britos', 'admin', 'consultor@gmail.com', 'ACTIVO', 'CONSULTOR');

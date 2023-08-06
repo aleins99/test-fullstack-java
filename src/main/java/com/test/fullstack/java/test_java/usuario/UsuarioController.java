@@ -85,7 +85,11 @@ public class UsuarioController {
         }
         String estado = us.getEstado();
         if (estado.equals("INACTIVO")) {
-            return new ResponseEntity<>("Usuario Inactivo", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Usuario activo", HttpStatus.FORBIDDEN);
+        }
+        if (!(loginRequest.getPassword().equals(us.getContrasenia()))) {
+            return new ResponseEntity<>("Contraseña incorrecta", HttpStatus.UNAUTHORIZED);
+
         }
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
