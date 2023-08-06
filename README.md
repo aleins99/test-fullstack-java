@@ -65,9 +65,9 @@ Estos desafíos te darán una excelente oportunidad para aprender y poner en pr�
 
 - [x] Para empezar crear un fork de este repositorio para implementar los ejercicios.
 
-- [ ] Adjuntar cualquier documentación al proyecto en forma de archivos con extensión `.md`.
+- [x] Adjuntar cualquier documentación al proyecto en forma de archivos con extensión `.md`.
 
-- [ ] Se recomienda ir haciendo commits a medida que se avanza con la solución. Agrupando estos commits si corresponde hacerlo.
+- [x] Se recomienda ir haciendo commits a medida que se avanza con la solución. Agrupando estos commits si corresponde hacerlo.
 
 ## Envíar el código para evaluación
 
